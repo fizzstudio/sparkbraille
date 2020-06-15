@@ -43,8 +43,11 @@ export function insertInteractiveBrailleRegion(container, lines, eventListener) 
     region.setAttribute("role", "textbox");
     region.setAttribute("contenteditable", "true");
     document.addEventListener("selectionchange", () => {
-      const selection = document.getSelection();
-      let offset = selection.anchorOffset;
+        const selection = document.getSelection();
+        // Only respond to events from the current interactive region.
+        if (selection.anchorNode.parentNode.parentNode != region)
+            return;
+        const offset = selection.anchorOffset;
       eventListener(offset, region, selection);
     });
     insertBrailleLines(region, lines);
