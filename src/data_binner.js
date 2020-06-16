@@ -72,19 +72,8 @@ export class DataBinner {
     for (const series in this.dataset) {
       if (`label` !== series) {
         let row = this.dataset[series];
-        for (var r = 0, r_len = row.length; r_len > r; ++r) {
-          let val = row[r];
-          let bin_val = 0;
-          if (this.bin_slots[1] > val) {
-             bin_val = 0;
-          } else if (this.bin_slots[2] > val) {
-             bin_val = 1;
-          } else if (this.bin_slots[3] > val) {
-             bin_val = 2;
-          } else {
-             bin_val = 3;
-          }
-          row[r] = bin_val;
+        for (let r = 0, r_len = row.length; r_len > r; ++r) {
+            row[r] = Math.floor(Math.abs(row[r]-this.min)/this.interval);
         }
       }
     }
