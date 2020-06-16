@@ -44,8 +44,7 @@ export class DataBinner {
       }
     }
 
-      // Ensure min and max are outside the range of the data values.
-      --min;
+      // Ensure max is outside the range of the data values.
       ++max;
       // round min down to nearest even number
     this.min = this.min % 2 == 0 ? this.min : this.min - 1;
