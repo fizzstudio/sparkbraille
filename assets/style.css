@@ -1,7 +1,7 @@
 @font-face {
   font-family: Raphigrafie;
   src: url("../sparkbraille/Raphigrafie.ttf") format('truetype');
-  /* src: url("Raphigrafie.ttf") format('truetype'); */
+  src: url("Raphigrafie.ttf") format('truetype');
 }
 
 #braille_linechart,
