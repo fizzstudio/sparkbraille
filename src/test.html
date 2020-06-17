@@ -11,6 +11,11 @@
       const line2 = [[1,4,5], [1,5], [1,2,4]];
       braille.insertBraille(document.getElementById("single_line"), singleLine);
       braille.insertBrailleLines(document.getElementById("multiple_lines"), [line1, line2]);
+      braille.insertInteractiveBrailleRegion(document.getElementById("interactive"), [line1],
+      (offset, region, selection) => {
+      const statusElement = document.querySelector("[role=status]");
+      statusElement.innerHTML = `<p>Selection: ${offset}</p>`;
+      });
     </script>
   </head>
   <body>
@@ -19,5 +24,8 @@
     <p id="single_line"></p>
     <p>Multiple lines of braille follow.</p>
     <div id="multiple_lines"></div>
+    <p>An interactive braille region follows.</p>
+    <div id="interactive"></div>
+    <div role="status"></div>
   </body>
 </html>
