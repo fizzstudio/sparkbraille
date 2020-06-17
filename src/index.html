@@ -163,6 +163,8 @@
 
     document.getElementById(`data_params_submit`).addEventListener(`click`, generate_linechart);
 
+    // TODO: make modular
+
     function generate_linechart () {
       let record_count = document.getElementById(`record_count_input`).value;
       let chart_width = Math.max( 220, (record_count * 25) + 55);
