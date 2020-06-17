@@ -1,4 +1,4 @@
-class DataLookup {
+export class DataLookup {
   constructor(data, index) {
     this.data = data;
     this.index = index;

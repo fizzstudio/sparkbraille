@@ -1,4 +1,4 @@
-class DataBinner {
+export class DataBinner {
   constructor(data, bin_count) {
     this.data = data;
     this.bin_count = bin_count;
@@ -89,5 +89,4 @@ class DataBinner {
       }
     }
   }
-
 }

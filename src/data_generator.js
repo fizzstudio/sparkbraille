@@ -9,7 +9,7 @@ const genRandomLabel = function() {
 
 /*Generates random number for each slot in the dataset in accordance
 with the specified dimensions of the dataset that were randomly generated.*/
-const genData = function(rows, cols, hasGaps) {
+export const genData = function(rows, cols, hasGaps) {
 	let outputTable = {};
 	//Generate dimensions of csv file
 	const dimensions = [rows, cols];
@@ -18,7 +18,8 @@ const genData = function(rows, cols, hasGaps) {
 	outputTable["label"] = [];
 	//Write column labels
 	for(let i=0; i<dimensions[1]; i++) {
-		outputTable["label"].push(genRandomLabel());
+		// outputTable["label"].push(genRandomLabel());
+		outputTable["label"].push(i + 1);
 	}
 
 	//Fill in the table with random num values.

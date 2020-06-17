@@ -1,4 +1,4 @@
-class bins2braille {
+export class bins2braille {
   constructor(data, is_area) {
     this.data = data;
     this.is_area = is_area || false;

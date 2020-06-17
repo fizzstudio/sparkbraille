@@ -1,4 +1,4 @@
-class LineChart {
+export class LineChart {
   constructor(data, container, width, height, pad) {
     this.svgns = `http://www.w3.org/2000/svg`;
     this.data = data;
@@ -75,7 +75,7 @@ class LineChart {
 
     if (this.pad) {
       // round max up to nearest even number
-      this.max = this.max % 2 == 0 ? this.max : this.max + 1;
+      // this.max = this.max % 2 == 0 ? this.max : this.max + 1;
     }
   }
 
@@ -141,9 +141,11 @@ class LineChart {
     y_line.classList.add(`axis`);
     y_axis.appendChild(y_line);
 
+    const quarters = Math.round(((this.max * 10) / 3) / 10);
+
     // create tickmarks
-    const y_tick_values = [0, (this.max / 2), (this.max)];
-    const y_t_len = 3;
+    const y_tick_values = [0, (quarters), (quarters * 2), (this.max)];
+    const y_t_len = 4;
     const y_tick_distance = this.single_precision(this.dataspace.height / (y_t_len - 1));
     for (let t = 0; y_t_len > t; ++t) {
       let tick = document.createElementNS(this.svgns, `g`);

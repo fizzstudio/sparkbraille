@@ -1,0 +1,46 @@
+/*  SVG styles */
+.axis {
+  fill: none;
+  stroke: hsl(0, 0%, 70%);
+  stroke-width: 2px;
+  stroke-linecap: round;
+}
+
+.tick_label {
+  fill: hsl(0, 0%, 70%);
+  stroke: none;
+  text-anchor: middle;
+  font-family: Verdana, sans-serif;
+  font-size: 15px;
+}
+
+.y .tick_label {
+  text-anchor: end;
+}
+
+.x .tick_label {
+  fill: none;
+}
+
+/* dataline style */
+.dataline  {
+  color: gray;
+}
+
+  .dataline text {
+    fill: currentColor;
+    stroke: none;
+    font-weight: bold;
+  }
+
+  .dataline path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2px;
+    stroke-linecap: round;
+  }
+
+  /* colors for each line */
+  .dataline.series_0 {
+    color: hsl(0, 0%, 60%);
+  }

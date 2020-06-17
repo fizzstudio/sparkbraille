@@ -1,22 +1,20 @@
-// Constants:
-const brailleUnicodeBlock = 0x2800;
-export const space = [];
-export const fullCell = [1,2,3,4,5,6,7,8];
-
-/* Converts an array of dot specifications to a string of (Unicode) braille.
-   Each dot specification is an array of integers (1-8); [] represents a braille space character.
-*/
 export function create_table (data, container) {
     while (container.firstChild) {
       container.firstChild.remove();
     }
 
   const table = document.createElement(`table`);
+  const thead = document.createElement(`thead`);
+  table.appendChild(thead);
+  const tbody = document.createElement(`tbody`);
+  table.appendChild(tbody);
 
   for (const series in data) {
     let cell_type = `td`;
+    let parent_node = tbody;
     if (`label` === series) {
       cell_type = `th`;
+      parent_node = thead;
     }
 
     const row_el = table.insertRow();
@@ -28,8 +26,8 @@ export function create_table (data, container) {
       cell.textContent = val;
       row_el.appendChild(cell);
     }
-    table.appendChild(row_el);
-
-    container.appendChild(table);
+    parent_node.appendChild(row_el);
   }
+
+  container.appendChild(table);
 }
