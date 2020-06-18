@@ -48,9 +48,6 @@ export class LineChart {
   }
 
   find_min_max_values() {
-    // TODO: find longest string in labels, set line_label_width and x_label_font_size accordingly
-    // const longest_string = this.record_labels.reduce((a, b) => { return a.length > b.length ? a : b; });
-
     for (const series in this.data) {
       if (`label` === series) {
         this.record_labels = this.data[series];
@@ -60,9 +57,9 @@ export class LineChart {
         for (let record of row) {
           let val = parseFloat(record);
 
-          if (!this.max || !this.min) {
-            this.max = !this.max ? val : this.max;
-            this.min = !this.min ? val : this.min;
+          if (null === this.max || null === this.min) {
+            this.max = (!this.max && 0 !== this.max) ? val : this.max;
+            this.min = (!this.min && 0 !== this.min) ? val : this.min;
           }
 
           if (`` !== val && !isNaN(val)) {

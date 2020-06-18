@@ -6,22 +6,15 @@ export class DataBinner {
     this.min = null;
     this.max = null;
     this.interval = null;
-    this.bin_slots = [];
     this.init()
   }
 
   init () {
-    // console.log(this.data);
-    this.find_min_max_values();
-    this.find_interval();
-    this.find_bins();
+    this.find_min_max_interval();
     this.normalize_data();
   }
 
-  find_min_max_values() {
-    // TODO: find longest string in labels, set line_label_width and x_label_font_size accordingly
-    // const longest_string = this.record_labels.reduce((a, b) => { return a.length > b.length ? a : b; });
-
+  find_min_max_interval() {
     for (const series in this.data) {
       if (`label` === series) {
         this.record_labels = this.data[series];
@@ -31,9 +24,9 @@ export class DataBinner {
         for (let record of row) {
           let val = parseFloat(record);
 
-          if (!this.max || !this.min) {
-            this.max = !this.max ? val : this.max;
-            this.min = !this.min ? val : this.min;
+          if (null === this.max || null === this.min) {
+            this.max = (!this.max && 0 !== this.max) ? val : this.max;
+            this.min = (!this.min && 0 !== this.min) ? val : this.min;
           }
 
           if (`` !== val && !isNaN(val)) {
@@ -47,21 +40,11 @@ export class DataBinner {
       // round min down to nearest even number
     this.min = this.min % 2 == 0 ? this.min : this.min - 1;
 
-    // round max up to nearest even number
-    this.max = this.max % 2 == 0 ? this.max : this.max + 1;
-  }
+    // round max up to nearest even number, and ensure max is outside the range of the data values
+    this.max = this.max % 2 == 0 ? this.max + 2 : this.max + 1;
 
-  find_interval() {
-    const range = this.max - this.min;
-    this.interval = range / this.bin_count;
-    // console.log(this.min, this.max, this.interval);
-  }
-
-  find_bins() {
-    for (var b = 0; this.bin_count > b; ++b) {
-      this.bin_slots.push(this.min + (this.interval * b));
-    }
-    // console.log(this.bin_slots);
+    // find interval
+    this.interval = (this.max - this.min) / this.bin_count;
   }
 
   normalize_data() {
@@ -73,8 +56,7 @@ export class DataBinner {
       if (`label` !== series) {
         let row = this.dataset[series];
         for (let r = 0, r_len = row.length; r_len > r; ++r) {
-            const normalized = Math.floor(Math.abs(row[r]-this.min)/this.interval);
-            row[r] = normalized < this.bin_count - 1 ? normalized : this.bin_count - 1;
+          row[r] = Math.floor(Math.abs(row[r]-this.min) / this.interval);
         }
       }
     }
