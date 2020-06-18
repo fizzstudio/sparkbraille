@@ -8,7 +8,7 @@ Each pair (tuple) of dots in a sequence can be selected via its Cursor Routing b
 Extension to larger (including multi-line) displays could be explored subsequently.
 
 # HTML Rendered View
-https://diagram-codesprint.github.io/render-line-charts-braille-display/src/test.html
+https://fizzstudio.github.io/sparkbraille/
 
 # Testing
 A simple test file is in `src/test.html`. At least initially, JavaScript (ES6) modules are used. Hence, the test cannot be run from the local file system due to cross-domain security issues. It can however be run from a local Web server. For example, with node.js installed, and with the root directory of the project as the current directory:
@@ -25,13 +25,15 @@ To explore the data values for any pair of values in a cell, the user can press 
 
 SprarkBraille offers two modes of display, toggled with a check box.
 
+### Default mode
 In the __default mode__, the braille characters are chosen so that only one dot occurs in each vertical column of the display. Dots in the top position indicate large values, those in the next lower position are smaller, and so on, with the lowest dot indicating the lowest range of values.
 
+### Area chart mode
 In __area chart__ mode, each column is filled in below the top dot, so that (for example) a value in the lowest range has only the lowest dot, values in the next higher range have the bottom two dots, and so on, with the highest values having all four dots.
 
 ## Test Page
 
-The [Test Page](https://fizzstudio.github.io/sparkbraille/src/index.html) allows the user to display random data. The user can specify the number of values to display. In addition to the braille output, the page shows how the braille display is generated, by determining the range of values, and placing the values into four bins, corresponding to the four vertical dot positions.
+The [Test Page](https://fizzstudio.github.io/sparkbraille/) allows the user to display random data. The user can specify the number of values to display. In addition to the braille output, the page shows how the braille display is generated, by determining the range of values, and placing the values into four bins, corresponding to the four vertical dot positions.
 
 
 # Implementation Note
@@ -42,17 +44,3 @@ Within the Unicode range (0x2800-0x28ff), if a bit is set, the corresponding bra
 Consequently, for example, to represent a braille cell consisting of dots 1, 2 and 3, the low-order byte is 00000111 in binary (i.e., 7 in decimal).
 
 Note that for historical reasons, braille is composed of a six-dot cell, wherein the dots are conventionally numbered 1, 2 and 3 in the left column, and 4, 5 and 6 in the right column. In an eight-dot cell, two additional dot positions are added below the conventional six-dot arrangement: dot 7 is on the lower left, and dot 8 on the lower right. Most braille displays provide eight-dot cells.
-
-
-
-## [future] Loading data into SparkBraille
-
-For real use, SparkBraille will offer a file upload, allowing the user to bring data from a `csv` file. This is a common data interchange format, that will allow users to import and display values from a spreadsheet, for example.
-
-## [future] Scroll vs compress
-
-Braille displays vary in size quite a bit, from 15 cells (30 columns) to 60 cells (120 columns). A future control will allow the user to specify how many cells their display has, and to choose whether they want all data to be compressed horizontally to fit their display size, or whether they prefer to scroll the data through their display.
-
-## [future] Resuable components
-
-In future work, we plan to make some software components of SparkBraille available separately, so that they can be used to render other kinds of information in braille cells.
