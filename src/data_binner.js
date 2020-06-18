@@ -74,7 +74,7 @@ export class DataBinner {
         let row = this.dataset[series];
         for (let r = 0, r_len = row.length; r_len > r; ++r) {
             const normalized = Math.floor(Math.abs(row[r]-this.min)/this.interval);
-            row[r] = normalized < this.bin_count - 1 ? normalized : this.bin_count - 1;
+            row[r] = normalized < this.bin_count ? normalized : this.bin_count - 1;
         }
       }
     }
