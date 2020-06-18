@@ -44,8 +44,6 @@ export class DataBinner {
       }
     }
 
-      // Ensure max is outside the range of the data values.
-      ++max;
       // round min down to nearest even number
     this.min = this.min % 2 == 0 ? this.min : this.min - 1;
 
@@ -75,7 +73,8 @@ export class DataBinner {
       if (`label` !== series) {
         let row = this.dataset[series];
         for (let r = 0, r_len = row.length; r_len > r; ++r) {
-            row[r] = Math.floor(Math.abs(row[r]-this.min)/this.interval);
+            const normalized = Math.floor(Math.abs(row[r]-this.min)/this.interval);
+            row[r] = normalized < this.bin_count - 1 ? normalized : this.bin_count - 1;
         }
       }
     }
