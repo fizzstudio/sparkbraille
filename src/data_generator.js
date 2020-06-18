@@ -30,7 +30,8 @@ export const genData = function(rows, cols, hasGaps) {
 		outputTable[label] = [];
 		//Fill in the actual random values.
 		for(let j=0; j<dimensions[1]; j++) {
-			outputTable[label].push(Math.floor(genRandomNum(1,500)));
+      outputTable[label].push(Math.floor(genRandomNum(1,500)));
+			// outputTable[label].push(25*j); // test regular intervals
 		}
 	}
 
