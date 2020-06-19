@@ -1,5 +1,7 @@
 # Documentation for SparkBraille
 
+SparkBraille is a project from Doug Schepers of Fizz Studio and Jason White of ETS. It was first developed as part of the Benetech DIAGRAM Center 2020 hackathon.
+
 # Goal
 The aim of the project is to represent the gist of a line chart (i.e., a summary of its form) on a typical refreshable braille display (e.g., one line of 40 cells), with Web content.
 
