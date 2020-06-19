@@ -26,7 +26,7 @@ export function insertBraille(node, dots) {
     node.innerText = convertCells(dots);
 }
 
-export function insertBrailleLines(node, lines) {
+export function insertBrailleLines(node, lines, readOnly=false) {
     if (!lines.length)
 	return;
     let brailleLines = "";
@@ -35,7 +35,7 @@ export function insertBrailleLines(node, lines) {
 	if (i < lines.length - 1)
 	    brailleLines += "\n";
     }
-    node.innerHTML = `<pre>${brailleLines}</pre>`;
+    node.innerHTML = `<pre${readOnly ? ' contenteditable="false"' : ''}>${brailleLines}</pre>`;
 }
 
 export function insertInteractiveBrailleRegion(container, lines, eventListener) {
@@ -51,7 +51,7 @@ export function insertInteractiveBrailleRegion(container, lines, eventListener) 
       let offset = selection.anchorOffset;
       eventListener(offset, region, selection);
     });
-    insertBrailleLines(region, lines);
+    insertBrailleLines(region, lines, true);
 
     // clear container, and insert new braille string
     while (container.firstChild) {
