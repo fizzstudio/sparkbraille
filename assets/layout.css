@@ -1,5 +1,5 @@
 main {
-  display: flex;
+  display: block;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
@@ -7,8 +7,8 @@ main {
 }
 
 article {
-  height: 40px;
-  margin: 1em;
+  /* height: 40px; */
+  margin-bottom: 1rem;
 
   display: flex;
   flex-direction: row;
@@ -18,25 +18,29 @@ article {
 
 
 h2 {
-  font-family: Verdana, sans-serif;
-  font-size: 15px;
-  font-weight: normal;
   color: hsl(0, 0%, 20%);
-  margin: 5px;
-  padding: 0;
+  margin: 0;
+  padding: 0.25rem;
 }
 
 article > header {
   flex-basis: 250px;
+  flex-shrink: 0;
+  margin-right: 1rem;
 
 
   font-size: 15px;
   background-color: hsl(0, 0%, 90%);
   width: 250px;
-  height: 100px;
+  /* height: 75px; */
   vertical-align: top;
+  align-content: stretch;
   /* margin-bottom: 1em; */
   /* background: yellow; */
+}
+
+section {
+  align-self: top;
 }
 
 

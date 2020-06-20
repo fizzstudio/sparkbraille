@@ -3,10 +3,6 @@ const genRandomNum = function(min, max) {
 	return Math.random()*(max - min) + min;
 }
 
-const genRandomLabel = function() {
-	return Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 4);
-}
-
 /*Generates random number for each slot in the dataset in accordance
 with the specified dimensions of the dataset that were randomly generated.*/
 export const genData = function(rows, cols, hasGaps) {
@@ -26,14 +22,17 @@ export const genData = function(rows, cols, hasGaps) {
 	//Currently only does integers.
 	for(let i=0; i<dimensions[0]; i++) {
 		//Generate row label
-		let label = genRandomLabel();
+		let label = `row_${i}`;
 		outputTable[label] = [];
 		//Fill in the actual random values.
 		for(let j=0; j<dimensions[1]; j++) {
       outputTable[label].push(Math.floor(genRandomNum(1,500)));
-			// outputTable[label].push(25*j); // test regular intervals
+			// outputTable[label].push(5*j); // test regular intervals
 		}
 	}
+
+	console.log(outputTable);
+	
 
 	return outputTable;
 }
