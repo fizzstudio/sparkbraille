@@ -26,27 +26,37 @@ export function insertBraille(node, dots) {
   node.innerText = convertCells(dots);
 }
 
-export function insertBrailleLines(node, lines) {
-  if (!lines.length)
-  return;
-  let brailleLines = "";
-  for (let i = 0; i < lines.length; ++i) {
-  brailleLines += convertCells(lines[i]);
-  if (i < lines.length - 1)
-    brailleLines += "\n";
-  }
-  node.innerHTML = `<pre>${brailleLines}</pre>`;
+export function insertBrailleLines(node, lines, readOnly=false) {
+    if (!lines.length)
+	return;
+    let brailleLines = "";
+    for (let i = 0; i < lines.length; ++i) {
+	brailleLines += convertCells(lines[i]);
+	if (i < lines.length - 1)
+	    brailleLines += "\n";
+    }
+    node.innerHTML = `<pre${readOnly ? ' contenteditable="false"' : ''}>${brailleLines}</pre>`;
 }
 
 export function insertInteractiveBrailleRegion(container, lines, eventListener) {
-  const region = document.createElement("div");
-  region.setAttribute("role", "textbox");
-  region.setAttribute("contenteditable", "true");
-  document.addEventListener("selectionchange", () => {
-    const selection = document.getSelection();
-    // Only respond to events from the current interactive region.
-    if (region !== selection.anchorNode.parentNode.parentNode) {
-    return;
+    const region = document.createElement("div");
+    region.setAttribute("role", "textbox");
+    region.setAttribute("contenteditable", "true");
+    document.addEventListener("selectionchange", () => {
+      const selection = document.getSelection();
+      // Only respond to events from the current interactive region.
+      if (region !== selection.anchorNode.parentNode.parentNode) {
+        return;
+      }
+      let offset = selection.anchorOffset;
+      eventListener(offset, region, selection);
+    });
+    insertBrailleLines(region, lines, true);
+
+    // clear container, and insert new braille string
+    while (container.firstChild) {
+      container.firstChild.remove();
+
     }
     let offset = selection.anchorOffset;
     eventListener(offset, region, selection);
