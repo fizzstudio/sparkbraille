@@ -44,3 +44,9 @@
   .dataline.series_0 {
     color: hsl(0, 0%, 60%);
   }
+
+  path.segment_hilite {
+    stroke: red;
+    stroke-width: 4px;
+  }
+  

@@ -1,7 +1,7 @@
 @font-face {
   font-family: Raphigrafie;
-  src: url("../sparkbraille/Raphigrafie.ttf") format('truetype');
-  /* src: url("Raphigrafie.ttf") format('truetype'); */
+  src: url("../sparkbraille/assets/Raphigrafie.ttf") format('truetype');
+  src: url("Raphigrafie.ttf") format('truetype');
 }
 
 #braille_linechart,
@@ -45,13 +45,7 @@ h1 {
 h2 {
   font-family: Verdana, sans-serif;
   font-weight: normal;
-}
-
-h2 {
-  color: hsl(0, 0%, 20%);
-  font-size: 15px;
-  margin: 0;
-  padding: 0;
+  font-size: 1rem;
 }
 
 /* table */
@@ -59,8 +53,8 @@ section#data-table {
   display: inline-block;
   width: 800px;
   /* overflow-y: hidden; */
-  overflow-x: scroll;
-  height: 5rem;
+  /* overflow-x: scroll; */
+  /* height: 5rem; */
 }
 
 table {

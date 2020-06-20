@@ -1,6 +1,7 @@
 export class LineChart {
-  constructor(data, container, width, height, pad) {
+  constructor(id, data, container, width, height, pad) {
     this.svgns = `http://www.w3.org/2000/svg`;
+    this.id = id;
     this.data = data;
     this.pad = pad || false;
     this.root = null;
