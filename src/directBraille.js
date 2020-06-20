@@ -39,29 +39,19 @@ export function insertBrailleLines(node, lines, readOnly=false) {
 }
 
 export function insertInteractiveBrailleRegion(container, lines, eventListener) {
-    const region = document.createElement("div");
-    region.setAttribute("role", "textbox");
-    region.setAttribute("contenteditable", "true");
-    document.addEventListener("selectionchange", () => {
-      const selection = document.getSelection();
-      // Only respond to events from the current interactive region.
-      if (region !== selection.anchorNode.parentNode.parentNode) {
-        return;
-      }
-      let offset = selection.anchorOffset;
-      eventListener(offset, region, selection);
-    });
-    insertBrailleLines(region, lines, true);
-
-    // clear container, and insert new braille string
-    while (container.firstChild) {
-      container.firstChild.remove();
-
+  const region = document.createElement("div");
+  region.setAttribute("role", "textbox");
+  region.setAttribute("contenteditable", "true");
+  document.addEventListener("selectionchange", () => {
+    const selection = document.getSelection();
+    // Only respond to events from the current interactive region.
+    if (region !== selection.anchorNode.parentNode.parentNode) {
+      return;
     }
     let offset = selection.anchorOffset;
     eventListener(offset, region, selection);
   });
-  insertBrailleLines(region, lines);
+  insertBrailleLines(region, lines, true);
 
   // clear container, and insert new braille string
   while (container.firstChild) {
