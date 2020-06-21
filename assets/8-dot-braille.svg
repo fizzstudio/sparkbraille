@@ -2,12 +2,22 @@
   width="100%" height="100%" viewBox="0 0 300 440">
 
   <title>Braille Eight-Dot Cell Numbering</title>
+  <desc>Index number of each braille dot</desc>
   <style>
+    rect#background {
+      fill: none;
+      pointer-events: all;
+    }
+ 
     .dot {
       fill: hsl(0, 0%, 10%);;
       stroke: hsl(0, 0%, 100%);
       stroke-width: 2px;
     }
+
+        #dots:hover .dot.extra {
+        fill: hsl(0, 0%, 40%);
+        }
 
     .dot text {
       fill: hsl(0, 0%, 100%);
@@ -16,45 +26,48 @@
       font-family: Helvetica, sans-serif;
       font-size: 50px;
     }
-  </style>
-
-  <g class="dot" transform="translate(90,70)">
-    <circle cx="0" cy="0" r="40"/>
-    <text y="18">1</text>
-  </g>
-
-  <g class="dot" transform="translate(90,170)">
-    <circle cx="0" cy="0" r="40"/>
-    <text y="18">2</text>
-  </g>
-
-  <g class="dot" transform="translate(90,270)">
-    <circle cx="0" cy="0" r="40"/>
-    <text y="18">3</text>
-  </g>
-
-  <g class="dot" transform="translate(210,70)">
-    <circle cx="0" cy="0" r="40"/>
-    <text y="18">4</text>
-  </g>
-
-  <g class="dot" transform="translate(210,170)">
-    <circle cx="0" cy="0" r="40"/>
-    <text y="18">5</text>
-  </g>
-
-  <g class="dot" transform="translate(210,270)">
-    <circle cx="0" cy="0" r="40"/>
-    <text y="18">6</text>
-  </g>
-
-  <g class="dot" transform="translate(90,370)">
-    <circle cx="0" cy="0" r="40"/>
-    <text y="18">7</text>
-  </g>
-
-  <g class="dot" transform="translate(210,370)">
-    <circle cx="0" cy="0" r="40"/>
-    <text y="18">8</text>
+ </style>
+ 
+  <g id="dots">
+    <rect id="background" width="100%" height="100%"/>
+    <g class="dot" transform="translate(90,70)">
+      <circle cx="0" cy="0" r="40"/>
+      <text y="18">1</text>
+    </g>
+  
+    <g class="dot" transform="translate(90,170)">
+      <circle cx="0" cy="0" r="40"/>
+      <text y="18">2</text>
+    </g>
+  
+    <g class="dot" transform="translate(90,270)">
+      <circle cx="0" cy="0" r="40"/>
+      <text y="18">3</text>
+    </g>
+  
+    <g class="dot" transform="translate(210,70)">
+      <circle cx="0" cy="0" r="40"/>
+      <text y="18">4</text>
+    </g>
+  
+    <g class="dot" transform="translate(210,170)">
+      <circle cx="0" cy="0" r="40"/>
+      <text y="18">5</text>
+    </g>
+  
+    <g class="dot" transform="translate(210,270)">
+      <circle cx="0" cy="0" r="40"/>
+      <text y="18">6</text>
+    </g>
+  
+    <g class="dot extra" transform="translate(90,370)">
+      <circle cx="0" cy="0" r="40"/>
+      <text y="18">7</text>
+    </g>
+  
+    <g class="dot extra" transform="translate(210,370)">
+      <circle cx="0" cy="0" r="40"/>
+      <text y="18">8</text>
+    </g>
   </g>
 </svg>
