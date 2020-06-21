@@ -63,7 +63,42 @@
         <section id="braille_linechart"></section>
       </article>
     </div>
-   </main>
 
+    <article id="project-description">
+      <h2 id="sparkbraille">SparkBraille</h2>
+      <p>Sparkbraille is an open source project to enable blind people to quickly get the gist of a chart's trend, and to explore it, using a common single-line refereshable braille display. It was conceived in May 2020 by Doug Schepers of Fizz Studio, and prototyped at a Benetech DIAGRAM Center accessibility technology hackathon in June 2020 by Jason White of ETS and Doug Schepers. We won the first prize in the hackathon, and were excited to develop the idea further.</p>
+
+      <p>The name sparkbraille is inspired by <a href="https://en.wikipedia.org/wiki/Sparkline">sparklines</a>, a simple and highly condensed data visualization type without axes or coordinates, used to represent the general shape or trend of the data represented. Sparklines are intended to be small enough to be embedded inline in text, or as components of a more complex visualization.</p>
+
+      <p>Tactile graphics are commonly used to enable blind users to understand shapes, charts, and diagrams. These are often embossed or printed on raised-print paper, and might serve as an overlay for touch-screen devices. Sometimes tablets or phones with vibration or electrostimulating capability can be used to emulate tactile graphics. And a class of large-size refreshable pin displays are entering the market. But these solutions are not as common or portable as the single-line braille display, so we decided to explore this limited device to see what's possible.</p>
+
+      <p>Our goal was that a user of a braille display could not only feel the shape of the chart with sparkbraille, but also listen to the values for each pair of dots in a braille cell. And we wanted to do this from the Web, not just a desktop app. This presented two primary challenges , since there's no "braille display" API exposed on the Web:</p>
+      <ol>
+        <li>Could you address each dot in a braille cell from the Web?</li>
+        <li>Could you send feedback from each braille cell to the Web?</li>
+      </ol>
+
+      <p>There was an additional challenge: Would a blind user adept in braille perceive the dots as shapes, or as letters? Would it be too difficult to <i>not</i> read, or would it seem like ASCII art?</p>
+
+      <h2 id="8-dot">8-dot braille</h2>
+
+      <img class="braille-glyph" src="./assets/8-dot-braille.svg" alt="8-dot braille cell"/>
+      <img class="braille-glyph" src="./assets/8-dot-braille-unicode-hex.svg" alt="8-dot braille cell"/>
+
+      <p class="dots">Printed braille normally consists of 6 dots, which provides 64 unique dot combinations (including the blank cell). For use with computers, refreshable braille displays typically have 8 dots, with two additional dots on the bottom, yielding 256 unique dot combinations. Unicode 3.0 introduced an encoding for each combination in Unicode range u+2800 to u+28FF. These cells are defined as symbols, not as letters, since each language may use each glyph for a different letter or meaning.</p>
+
+      <p class="dots">This means that rather than only 3 "lines of resolution", we had 4 lines of resolution, which actually proved to be suurprisingly adequate for data sets with relatively narrow ranges.</p>
+
+      <p>We decided to print each pair (or tuple) of data points as a Unicode character. This was pretty easily accomplished (by Jason, in one elegant line of JavaScript), and that only left the mapping from data space to braille-dot space. The first experiment was a short 20-character line chart hand-coded by Doug (who is sighted and doesn't have a braille display), and then read by Jason (who is blind and does have a braille display). Jason was able to apprehend and accurately describe the trend very quickly, and we had our proof of concept.</p>
+
+      <h2 id="cursor-routing-keys">Cursor routing keys</h2>
+      <p>Braille displays typically have several keys, for writing. Among these keys are the <em>cursor routing keys</em>, one each above or below the each braille cell. As clear from the name, these are used to set the position of cursor in a line of text. But unlike typical keyboard keys or mouse buttons, they aren't reflected in any Web API. So, we couldn't detect when they were pressed.</p>
+
+      <p>However, since they change the position of the cursor, we realized we could infer that a specific one was pressed by listening to the <code>selectionchange</code> event, and finding the index of the text range position to pinpoint which cell was pressed. With that index, we could announce the corresponding tuple of values from the data set.</p>
+
+      <p>Problems solved! Now, we just needed to provide a simple abstraction to encapsulate the reading and writing of braille displays on the Web. That's this project!</p>
+    </article>
+
+  </main>
 </body>
 </html>
