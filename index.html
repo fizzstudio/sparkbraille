@@ -94,7 +94,7 @@
       <h2 id="cursor-routing-keys">Cursor routing keys</h2>
       <p>Braille displays typically have several keys, for writing. Among these keys are the <em>cursor routing keys</em>, one each above or below the each braille cell. As clear from the name, these are used to set the position of cursor in a line of text. But unlike typical keyboard keys or mouse buttons, they aren't reflected in any Web API. So, we couldn't detect when they were pressed.</p>
 
-      <p>However, since they change the position of the cursor, we realized we could infer that a specific one was pressed by listening to the <code>selectionchange</code> event, and finding the index of the text range position to pinpoint which cell was pressed. With that index, we could announce the corresponding tuple of values from the data set.</p>
+      <p>However, since they change the position of the cursor, we realized we could infer that a specific one was pressed by listening to the <code>selectionchange</code> event, and finding the index of the text range position to pinpoint which cell was pressed. With that index, we could announce the corresponding tuple of values from the data set. But through trial and error, we realized that we could only set the cursor if the braille text was in a text input field, which introduces some limitations. A bit more experimentation showed that we could emulate this with a <code>contenteditable</code> element with <code>role="textbox"</code>.</p>
 
       <p>Problems solved! Now, we just needed to provide a simple abstraction to encapsulate the reading and writing of braille displays on the Web. That's this project!</p>
     </article>
