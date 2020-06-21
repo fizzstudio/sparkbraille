@@ -55,10 +55,17 @@ function generate_linechart () {
     // console.log(data_tuple);
     document.getElementById(`data_tuple_output`).textContent = data_tuple.toString().replace(`,`, `, `);
 
+    hilite_chart_segments([expanded_chart, compressed_chart, binned_chart], data_index);
     hilite_table ([last_data_index, data_index]);
     last_data_index = data_index;
   });
 
+}
+
+function hilite_chart_segments (charts, data_index) {
+  charts.forEach( chart => {
+    chart.hilite_segments_by_id([`${chart.id}-row_0-segment_${data_index + 1}`]);
+  });
 }
 
 function hilite_table (data_indexes) {
@@ -77,3 +84,4 @@ function hilite_table (data_indexes) {
     });
   });
 }
+

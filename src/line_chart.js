@@ -16,7 +16,7 @@ export class LineChart {
     this.x_label_font_size = 15;
     this.margin = 15;
     this.ticklength = 10;
-    this.line_label_width = 80;
+    this.line_label_width = 90;
     this.axis_label_bbox = {
       x: this.ticklength + (this.font_size * 1.5),
       y: this.font_size
@@ -35,7 +35,7 @@ export class LineChart {
     this.find_min_max_values(this.data);
     this.create_chart();
     this.create_axes();
-    this.create_marker();
+    this.create_markers();
 
     let idnum = 0;
     for (const series in this.data) {
@@ -167,23 +167,25 @@ export class LineChart {
     this.root.appendChild(y_axis);
   }
 
-  create_marker() {
+  create_markers() {
     let defs = document.createElementNS(this.svgns, `defs`);
 
-    let marker = document.createElementNS(this.svgns, `marker`);
-    marker.id = `marker-dot`;
-    marker.setAttribute(`viewBox`, `-3 -3 6 6`);
-    marker.setAttribute(`markerUnits`, `strokeWidth`);
-    marker.setAttribute(`markerWidth`, `6`);
-    marker.setAttribute(`markerHeight`, `6`);
-    marker.setAttribute(`stroke`, `inherit`);
-    marker.setAttribute(`fill`, `inherit`);
+    for (let m = 0; this.record_count > m; ++m) {
+      let marker = document.createElementNS(this.svgns, `marker`);
+      marker.id = `marker-dot-${m}`;
+      marker.setAttribute(`viewBox`, `-4 -4 8 8`);
+      marker.setAttribute(`markerUnits`, `strokeWidth`);
+      marker.setAttribute(`markerWidth`, `5`);
+      marker.setAttribute(`markerHeight`, `5`);
+      marker.setAttribute(`stroke`, `context-fill`);
+      marker.setAttribute(`fill`, `context-fill`);
 
-    let dot = document.createElementNS(this.svgns, `circle`);
-    dot.setAttribute(`r`, 3 );
-    marker.appendChild(dot);
+      let dot = document.createElementNS(this.svgns, `circle`);
+      dot.setAttribute(`r`, 3 );
+      marker.appendChild(dot);
 
-    defs.appendChild(marker);
+      defs.appendChild(marker);
+    }
     this.root.appendChild(defs);
   }
 
@@ -197,28 +199,52 @@ export class LineChart {
     const l_len = this.record_count;
     const x_tick_distance = this.single_precision(this.dataspace.width / (l_len - 1));
 
-    let dataline = document.createElementNS(this.svgns, `path`);
-    let moveto = true;
-    let d = ``;
-    let y_pos = 0;
+    let prev_x_pos = 0;
+    let prev_y_pos = 0;
     for (let l = 0; l_len > l; ++l) {
       let val = series[l];
-      if (`` === val || isNaN(val)) {
-        moveto = true;
-      } else {
-        y_pos = (this.dataspace.y + this.dataspace.height) - (this.single_precision(this.dataspace.height / (this.max / val)));
-        let command = moveto ? `M` : `L`;
-        d += `${command}${this.dataspace.x + (x_tick_distance * l)},${y_pos}`;
-        moveto = false;
+
+      if (`` !== val && !isNaN(val)) {
+        let dataline = document.createElementNS(this.svgns, `path`);
+        let x_pos = this.dataspace.x + (x_tick_distance * l);
+        let y_pos = (this.dataspace.y + this.dataspace.height) - (this.single_precision(this.dataspace.height / (this.max / val)));
+        if (0 !== l) {
+          let d = `M${prev_x_pos},${prev_y_pos} L${x_pos},${y_pos}`;
+          dataline.setAttribute(`d`, d);
+          // dataline.id = `series_${label}-segment_${l}`;
+          dataline.id = `${this.id}-${label}-segment_${l}`;
+          dataline_group.appendChild(dataline);
+          dataline.setAttribute(`marker-start`, `url(#marker-dot-${series_id})`);
+          dataline.setAttribute(`marker-end`, `url(#marker-dot-${series_id})`);
+        }
+
+        prev_x_pos = x_pos;
+        prev_y_pos = y_pos;
       }
     }
 
-    dataline.setAttribute(`d`, d);
-    dataline.setAttribute(`marker-start`, `url(#marker-dot)`);
-    dataline.setAttribute(`marker-mid`, `url(#marker-dot)`);
-    dataline.setAttribute(`marker-end`, `url(#marker-dot)`);
-    dataline_group.appendChild(dataline);
-
     this.root.appendChild(dataline_group);
+  }
+
+  hilite_segments_by_id( id_arr ) {
+    console.log(id_arr);
+    
+    const segments = this.root.querySelectorAll(`path[id*=-segment_]`);
+    if (!id_arr || !id_arr.length) {
+      for (const segment of segments) {
+        segment.classList.remove(`segment_hilite`);
+      }
+    } else {
+      for (const segment of segments) {
+        segment.classList.remove(`segment_hilite`);
+      }
+
+      for (const id of id_arr) {
+        const segment = this.root.getElementById(id);
+        if (segment){
+          segment.classList.add(`segment_hilite`);
+        }
+      }
+    }
   }
 }
