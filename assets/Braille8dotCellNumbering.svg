@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.2" width="56.939545" height="96.595795" id="svg2">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.2" viewBox="0 0 56.939545 96.595795" id="svg2">
   <metadata id="metadata3255">
     <rdf:RDF>
       <cc:Work rdf:about="">
@@ -41,4 +41,64 @@
       <path d="m -16.985301,17.11496 c 0,4.439731 -3.570088,8.038845 -7.974015,8.038845 -4.403927,0 -7.974015,-3.599114 -7.974015,-8.038845 0,-4.439732 3.570088,-8.0388453 7.974015,-8.0388453 4.403927,0 7.974015,3.5991133 7.974015,8.0388453 z" transform="matrix(0.98481542,0,0,0.98481542,38.649282,-2.592609)" id="path4092" style="fill:none;stroke:#000000;stroke-opacity:1"/>
     </g>
   </g>
+<svg xmlns="http://www.w3.org/2000/svg" x="-72" y="-8"
+  width="200" height="200" viewBox="0 0 300 900" opacity="0.5">
+
+  <title>Braille Eight-Dot Cell Numbering</title>
+  <style>
+    .dot {
+      fill: hsl(0, 0%, 10%);;
+      stroke: hsl(0, 0%, 10%);
+      stroke-width: 1px;
+    }
+
+    .dot text {
+      fill: hsl(0, 0%, 100%);
+      stroke: none;
+      text-anchor: middle;
+      font-family: Helvetica, sans-serif;
+      font-size: 50px;
+    }
+  </style>
+
+  <g class="dot" transform="translate(90,100)">
+    <circle cx="0" cy="0" r="40"/>
+    <text y="18">1</text>
+  </g>
+
+  <g class="dot" transform="translate(90,200)">
+    <circle cx="0" cy="0" r="40"/>
+    <text y="18">2</text>
+  </g>
+
+  <g class="dot" transform="translate(90,300)">
+    <circle cx="0" cy="0" r="40"/>
+    <text y="18">3</text>
+  </g>
+
+  <g class="dot" transform="translate(210,100)">
+    <circle cx="0" cy="0" r="40"/>
+    <text y="18">4</text>
+  </g>
+
+  <g class="dot" transform="translate(210,200)">
+    <circle cx="0" cy="0" r="40"/>
+    <text y="18">5</text>
+  </g>
+
+  <g class="dot" transform="translate(210,300)">
+    <circle cx="0" cy="0" r="40"/>
+    <text y="18">6</text>
+  </g>
+
+  <g class="dot" transform="translate(90,400)">
+    <circle cx="0" cy="0" r="40"/>
+    <text y="18">7</text>
+  </g>
+
+  <g class="dot" transform="translate(210,400)">
+    <circle cx="0" cy="0" r="40"/>
+    <text y="18">8</text>
+  </g>
+</svg>
 </svg>

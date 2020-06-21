@@ -3,8 +3,10 @@
 <head>
   <title>SparkBraille: Braille Line Charts</title>
   <link rel="stylesheet" href="./assets/style.css">
-  <link rel="stylesheet" href="./assets/layout-0.css">
+  <link rel="stylesheet" href="./assets/layout.css">
   <link rel="stylesheet" href="./assets/svg.css">
+
+  <script type="module" src="./assets/ui.js"></script>
 </head>
 <body>
   <header>
@@ -12,53 +14,56 @@
     <section id="controls">
       <label>record count: <input type="number" id="record_count_input" value="40" min="2" max="120"></label>
       <label>area chart on: <input type="checkbox" id="area-checkbox"></label>
-      <button id="data_params_submit">generate chart</button>
+      <button id="data_params_submit">generate new chart</button>
+
+      <a id="skip" href="#braille_linechart">skip to braille linechart</a>
     </section>
   </header>
 
   <main>
-    <article>
-      <header>
-				<h2 id="data-table-section">data table</h2>
-			</header>
-      <section id="data-table"></section>
-    </article>
+    <div class="demo">
+      <article>
+        <header>
+          <h2 id="data-table-section">data table</h2>
+          <p>Randomly generated data.</p>
+  			</header>
+        <section id="data-table"></section>
+      </article>
+  
+      <article>
+        <header>
+  				<h2 id="tall-chart">expanded SVG chart</h2>
+          <p>A chart with an expanded vertical axis shows more distinct position differences between similar values.</p>
+  			</header>
+        <section id="expanded_chart"></section>
+      </article>
+  
+      <article>
+        <header>
+  				<h2 id="short-chart">compressed SVG chart</h2>
+          <p>A chart with an compressed vertical axis shows a decrease in relative vertical position differences between values.</p>
+  			</header>
+        <section id="compressed_chart"></section>
+      </article>
+  
+      <article>
+        <header>
+          <h2 id="binned-chart">binned SVG chart</h2>
+          <p>A compressed chart where each point is normalized into one of 4 value bins, corresponding to the 4 dot levels.</p>
+  			</header>
+        <section id="binned_chart"></section>
+      </article>
+  
+      <article>
+        <header>
+  				<h2 id="braille-chart">braille chart</h2>
+          <p>A braille line chart, "drawn" in Unicode braille symbols, with each 2-column character cell representing a pair of data points, one dot in each normalized level. Select a character to read the value pair.</p>
+          <label id="data_tuple_label">braille data selection: <output id="data_tuple_output" aria-live="assertive"></output> </label>
+  			</header>
+        <section id="braille_linechart"></section>
+      </article>
+    </div>
+   </main>
 
-    <article>
-      <header>
-				<h2 id="tall-chart">expanded SVG chart</h2>
-        <p>A chart with an expanded vertical axis shows more distinct position differences between similar values.</p>
-			</header>
-      <section id="expanded_chart"></section>
-    </article>
-
-    <article>
-      <header>
-				<h2 id="short-chart">compressed SVG chart</h2>
-        <p>A chart with an compressed vertical axis shows a decrease in relative vertical position differences between values.</p>
-			</header>
-      <section id="compressed_chart"></section>
-    </article>
-
-    <article>
-      <header>
-				<h2 id="binned-chart">binned / normalized SVG chart</h2>
-			</header>
-      <section id="binned_chart"></section>
-    </article>
-
-    <article>
-      <header>
-				<h2 id="braille-chart">braille chart</h2>
-        <label id="data_tuple_label">braille data selection: <output id="data_tuple_output" aria-live="assertive"></output> </label>
-			</header>
-      <section id="braille_linechart"></section>
-    </article>
-
-    <article>
-    </article>
-  </main>
-
-  <script type="module" src="./assets/ui.js"></script>
 </body>
 </html>

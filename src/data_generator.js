@@ -31,8 +31,7 @@ export const genData = function(rows, cols, hasGaps) {
 		}
 	}
 
-	console.log(outputTable);
-	
+	// console.log(outputTable);
 
 	return outputTable;
 }

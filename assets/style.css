@@ -1,7 +1,7 @@
 @font-face {
   font-family: Raphigrafie;
   src: url("../sparkbraille/assets/Raphigrafie.ttf") format('truetype');
-  src: url("Raphigrafie.ttf") format('truetype');
+  /* src: url("Raphigrafie.ttf") format('truetype'); */
 }
 
 #braille_linechart,
@@ -28,12 +28,9 @@ label {
 }
 
 main {
-  font-size: 50px;
+  /* font-size: 50px; */
   margin-top: 1rem;
-}
-
-#data_tuple_label {
-  font-size: 20px;
+  font-family: Helvetica, sans-serif;
 }
 
 h1 {
@@ -42,38 +39,72 @@ h1 {
   text-transform: lowercase;
 }
 
-h2 {
-  font-family: Verdana, sans-serif;
+div.demo h2 {
   font-weight: normal;
   font-size: 1rem;
 }
 
-/* table */
-section#data-table {
-  display: inline-block;
-  width: 800px;
-  /* overflow-y: hidden; */
-  /* overflow-x: scroll; */
-  /* height: 5rem; */
+div.demo p,
+#data_tuple_label {
+  font-size: 0.9rem;
 }
 
-table {
+#data_tuple_label {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+[role=textbox] pre {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+/* table */
+div.demo section#data-table {
+  display: inline-block;
+  overflow-x: scroll;
+}
+
+div.demo table {
   font-size: 15px;
   border-collapse: collapse;
   /* height: 6rem; */
 }
 
-th, td {
+div.demo th, td {
   padding: 0.25rem;
   text-align: left;
   border: 1px solid  hsl(0, 0%, 60%);
 }
 
-th {
+div.demo th {
   text-align: center;
 }
 
 .hilite {
   color: hsl(0, 0%, 99%);
   background-color: hsl(0, 0%, 35%);
+}
+
+p.dots {
+  text-align: justify;
+  text-justify: inter-character;
+  /* text-justify: inter-word; */
+}
+
+/* skip link */
+a#skip {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+ 
+a#skip:focus {
+  position: static;
+  width: auto;
+  height: auto;
 }

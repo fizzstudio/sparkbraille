@@ -2,22 +2,34 @@ import { LineChart } from "../src/line_chart.js";
 import * as data_generator from "../src/data_generator.js";
 import { DataBinner } from "../src/data_binner.js";
 import { bins2braille } from "../src/bins2braille.js";
-import * as table from "../src/table_generator.js";
+import { TableGenerator } from "../src/table_generator.js";
 import * as braille from "../src/directBraille.js";
 import { DataLookup } from "../src/data_lookup.js";
 
 document.getElementById(`data_params_submit`).addEventListener(`click`, generate_linechart);
 
+window.onload = () => generate_linechart();
+
 function generate_linechart () {
   let record_count = document.getElementById(`record_count_input`).value;
   let chart_width = Math.max( 220, (record_count * 25) + 55);
+
+  // TODO: make more accurate chart width based on braille cell count
+  /*
+  const braille_cell_font_size = 32.12;
+  const chart_axis_margin = 47.5;
+  let chart_width = ((record_count / 2) * braille_cell_font_size) + chart_axis_margin;
+  console.log(`chart width:`, chart_width);
+  */
+  
   let is_area_chart =  document.getElementById(`area-checkbox`).checked;
 
   let dataset = data_generator.genData(1, record_count, false);
 
-  table.create_table( dataset, document.querySelector('section#data-table') );
+  const table_container = document.querySelector('section#data-table');
+  table_container.style.width = `${chart_width * 0.7}px`;
+  let table = new TableGenerator( `random_data_table`, dataset, table_container );  
 
-  // console.log(dataset);
   //Create new chart and place it on chart section.
   let expanded_chart = new LineChart(`expanded`, dataset, document.querySelector('section#expanded_chart'), chart_width, 200, true);
 
