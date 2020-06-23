@@ -1,7 +1,7 @@
 @font-face {
   font-family: Raphigrafie;
   src: url("../sparkbraille/assets/Raphigrafie.ttf") format('truetype');
-  /* src: url("Raphigrafie.ttf") format('truetype'); */
+  src: url("Raphigrafie.ttf") format('truetype');
 }
 
 #braille_linechart,
@@ -82,7 +82,8 @@ div.demo th {
   text-align: center;
 }
 
-.hilite {
+.hilite,
+mark {
   color: hsl(0, 0%, 99%);
   background-color: hsl(0, 0%, 35%);
 }

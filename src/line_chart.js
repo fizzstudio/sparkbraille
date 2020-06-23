@@ -226,9 +226,7 @@ export class LineChart {
     this.root.appendChild(dataline_group);
   }
 
-  hilite_segments_by_id( id_arr ) {
-    console.log(id_arr);
-    
+  hilite_segments_by_id( id_arr ) {    
     const segments = this.root.querySelectorAll(`path[id*=-segment_]`);
     if (!id_arr || !id_arr.length) {
       for (const segment of segments) {

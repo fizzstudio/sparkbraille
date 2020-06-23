@@ -51,7 +51,8 @@ export function insertInteractiveBrailleRegion(container, lines, eventListener) 
     let offset = selection.anchorOffset;
     eventListener(offset, region, selection);
   });
-  insertBrailleLines(region, lines, true);
+  // insertBrailleLines(region, lines, true);
+  insertBrailleLines(region, lines, false);
 
   // clear container, and insert new braille string
   while (container.firstChild) {

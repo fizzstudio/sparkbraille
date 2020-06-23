@@ -44,9 +44,11 @@ function generate_linechart () {
   let braille_array = new bins2braille(normalized_data.dataset, is_area_chart);
   // console.log(braille_array.cell_array);
 
+  const braille_container = document.getElementById(`braille_linechart`);
+
   let last_data_index = 0;
   // insert interactive braille chart
-  braille.insertInteractiveBrailleRegion(document.getElementById(`braille_linechart`), [braille_array.cell_array], (offset, node, selection) => {
+  braille.insertInteractiveBrailleRegion(braille_container, [braille_array.cell_array], (offset, node, selection) => {
     // console.log(offset);
     const data_index = offset * 2;
     // get data at index from original dataset
@@ -55,18 +57,45 @@ function generate_linechart () {
     // console.log(data_tuple);
     document.getElementById(`data_tuple_output`).textContent = data_tuple.toString().replace(`,`, `, `);
 
+    for (let o = 0; o < 3; o++) {
+      hilite_braille(braille_container.querySelector(`pre`), offset + o);      
+    }
+    // hilite_braille(braille_container.querySelector(`pre`), offset);
     hilite_chart_segments([expanded_chart, compressed_chart, binned_chart], data_index);
     hilite_table ([last_data_index, data_index]);
     last_data_index = data_index;
   });
-
 }
+
+function hilite_braille (container, index) {
+  // remove mark element
+  let text = container.textContent;
+  console.log(`nodes 1: `, container.childNodes);
+  while (container.firstChild) {
+    container.firstChild.remove();
+  }
+  container.textContent = text;
+  console.log(`nodes 2: `, container.childNodes);
+
+  const range = new Range();
+  range.setStart(container.firstChild, index);
+  range.setEnd(container.firstChild, index + 1);
+
+  // console.log(range);
+
+  const mark = document.createElement(`mark`);
+  range.surroundContents(mark);
+
+  // window.getSelection().collapse(container, (index + 1));  
+}
+
 
 function hilite_chart_segments (charts, data_index) {
   charts.forEach( chart => {
-    chart.hilite_segments_by_id([`${chart.id}-row_0-segment_${data_index + 1}`]);
+    chart.hilite_segments_by_id([`${chart.id}-row_0-segment_${data_index + 2}`]);
   });
 }
+
 
 function hilite_table (data_indexes) {
   data_indexes.forEach((data_index, i) => {
