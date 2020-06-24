@@ -33,15 +33,15 @@ function generate_linechart () {
   let table = new TableGenerator( `random_data_table`, dataset, table_container );  
 
   //Create new chart and place it on chart section.
-  let expanded_chart = new LineChart(`expanded`, dataset, document.querySelector('section#expanded_chart'), chart_width, 200, true);
+  let expanded_chart = new LineChart(`expanded`, dataset, document.querySelector('section#expanded_chart'), chart_width, 200, 0, true);
 
   //Create new chart and place it on chart section.
-  let compressed_chart = new LineChart(`compressed`, dataset, document.querySelector('section#compressed_chart'), chart_width, 100, true);
+  let compressed_chart = new LineChart(`compressed`, dataset, document.querySelector('section#compressed_chart'), chart_width, 100, 0, true);
 
   let normalized_data = new DataBinner(dataset, 4);
 
   // console.log(normalized_data);
-  let binned_chart = new LineChart(`binned`, normalized_data.dataset, document.querySelector('section#binned_chart'), chart_width, 100, false);
+  let binned_chart = new LineChart(`binned`, normalized_data.dataset, document.querySelector('section#binned_chart'), chart_width, 100, normalized_data.zero_value, false);
 
   let braille_array = new bins2braille(normalized_data.dataset, is_area_chart);
   // console.log(braille_array.cell_array);

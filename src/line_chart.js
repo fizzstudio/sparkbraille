@@ -1,9 +1,10 @@
 export class LineChart {
-  constructor(id, data, container, width, height, pad) {
+  constructor(id, data, container, width, height, zero_value, pad) {
     this.svgns = `http://www.w3.org/2000/svg`;
     this.id = id;
     this.data = data;
     this.pad = pad || false;
+    this.zero_value = zero_value || 0;
     this.root = null;
     this.container = container;
     this.min = null;
@@ -165,36 +166,16 @@ export class LineChart {
       y_axis.appendChild(tick);
     }
 
-    // TODO: add 0 line for charts with negative values
-    let zero_pos = this.dataspace.height / (this.range / (0 - this.min));
+    // add 0 line for charts with negative values
+    if (0 > this.min || 0 !== this.zero_value) {
+      let zero_pos = this.dataspace.height / (this.range / (this.zero_value - this.min));
 
-    // create line
-    let zero_line = document.createElementNS(this.svgns, `path`);
-    zero_line.setAttribute(`d`, `M${this.dataspace.x},${(this.dataspace.y + this.dataspace.height) - this.single_precision(zero_pos)} H${this.dataspace.x + this.dataspace.width}`);
-    zero_line.classList.add(`zero_line`);
-    y_axis.appendChild(zero_line);
-
-    /*
-    const y_tick_values = [0, this.min, (this.min + quarters), (this.max - quarters), (this.max)];
-    const y_t_len = 4;
-    const y_tick_distance = this.single_precision(this.dataspace.height / (y_t_len - 1));
-    for (let t = 0; y_t_len > t; ++t) {
-      let val = y_tick_values[t]
-      let tick_height = this.dataspace.height / (this.range / (val - this.min));
-
-      const x1 = this.dataspace.x;
-      // const y1 = (this.dataspace.y + this.dataspace.height) - (y_tick_distance * t);
-      const y1 = (this.dataspace.y + this.dataspace.height) - this.single_precision(tick_height);
-      const x2 = this.dataspace.x - this.ticklength;
-      const y2 = null;
-      const label_x = (this.dataspace.x - this.ticklength) - (this.font_size/4);
-      const label_y = (this.dataspace.y + this.dataspace.height) - (y_tick_distance * t) + (this.font_size * 0.3);
-      const label_text = val;
-
-      let tick = this.create_tick( `y`, x1, y1, x2, y2, label_x, label_y, label_text );
-      y_axis.appendChild(tick);
+      // create line
+      let zero_line = document.createElementNS(this.svgns, `path`);
+      zero_line.setAttribute(`d`, `M${this.dataspace.x},${(this.dataspace.y + this.dataspace.height) - this.single_precision(zero_pos)} H${this.dataspace.x + this.dataspace.width}`);
+      zero_line.classList.add(`zero_line`);
+      y_axis.appendChild(zero_line);
     }
-    */
 
     this.root.appendChild(y_axis);
   }

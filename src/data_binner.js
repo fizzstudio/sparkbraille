@@ -6,6 +6,8 @@ export class DataBinner {
     this.min = null;
     this.max = null;
     this.interval = null;
+    this.range = null;
+    this.zero_value = null;
     this.init()
   }
 
@@ -43,8 +45,14 @@ export class DataBinner {
     // round max up to nearest even number, and ensure max is outside the range of the data values
     this.max = this.max % 2 == 0 ? this.max + 2 : this.max + 1;
 
+    // find range
+    this.range = this.max - this.min;    
+
     // find interval
-    this.interval = (this.max - this.min) / this.bin_count;
+    this.interval = this.range / this.bin_count;    
+
+    // find zero value
+    this.zero_value = Math.abs(this.min)/(this.range/(this.bin_count - 1));
   }
 
   normalize_data() {
