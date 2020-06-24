@@ -1,7 +1,8 @@
 @font-face {
   font-family: Raphigrafie;
-  src: url("../sparkbraille/assets/Raphigrafie.ttf") format('truetype');
-  /* src: url("Raphigrafie.ttf") format('truetype'); */
+  src: url("../sparkbraille/assets/Raphigrafie.woff2") format("woff2"),
+       url("../sparkbraille/assets/Raphigrafie.woff") format("woff"),
+       url("Raphigrafie.ttf") format("truetype");
 }
 
 #braille_linechart,
@@ -15,8 +16,8 @@
   /* border: none; */
 }
 
-#record_count_input {
-  width: 2.5rem;
+input[type=number] {
+  width: 3.5rem;
 }
 
 button {
