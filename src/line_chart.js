@@ -72,8 +72,7 @@ export class LineChart {
       }
     }
     this.range = this.max - this.min;
-    console.log(this.min, this.max, this.range);
-    
+    // console.log(this.min, this.max, this.range);   
 
     if (this.pad) {
       // round max up to nearest even number
@@ -144,10 +143,15 @@ export class LineChart {
     y_line.classList.add(`axis`);
     y_axis.appendChild(y_line);
 
-    const quarters = Math.round(((this.max * 10) / 3) / 10);
+    // const quarters = Math.round(((this.max * 10) / 3) / 10);
+    const quarters = Math.round(((this.range * 10) / 3) / 10);
+    // console.log(`quarters`, quarters);
+    
+    // TODO: add 0 line for charts with negative values
 
     // create tickmarks
-    const y_tick_values = [0, (quarters), (quarters * 2), (this.max)];
+    // const y_tick_values = [0, (quarters), (quarters * 2), (this.max)];
+    const y_tick_values = [this.min, (this.min + quarters), (this.max - quarters), (this.max)];
     const y_t_len = 4;
     const y_tick_distance = this.single_precision(this.dataspace.height / (y_t_len - 1));
     for (let t = 0; y_t_len > t; ++t) {
@@ -230,9 +234,10 @@ export class LineChart {
       let val = series[l];
 
       if (`` !== val && !isNaN(val)) {
-        let dataline = document.createElementNS(this.svgns, `path`);
+        let value_pos = this.dataspace.height / (this.range / (val - this.min));
         let x_pos = this.dataspace.x + (x_tick_distance * l);
-        let y_pos = (this.dataspace.y + this.dataspace.height) - (this.single_precision(this.dataspace.height / (this.max / val)));
+        let y_pos = (this.dataspace.y + this.dataspace.height) - this.single_precision(value_pos);
+        let dataline = document.createElementNS(this.svgns, `path`);
         if (0 !== l) {
           let d = `M${prev_x_pos},${prev_y_pos} L${x_pos},${y_pos}`;
           dataline.setAttribute(`d`, d);
