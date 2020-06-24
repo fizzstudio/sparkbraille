@@ -11,6 +11,8 @@ document.getElementById(`data_params_submit`).addEventListener(`click`, generate
 window.onload = () => generate_linechart();
 
 function generate_linechart () {
+  let data_min = document.getElementById(`min_input`).value;
+  let data_max = document.getElementById(`max_input`).value;
   let record_count = document.getElementById(`record_count_input`).value;
   let chart_width = Math.max( 220, (record_count * 25) + 55);
 
@@ -24,7 +26,10 @@ function generate_linechart () {
   
   let is_area_chart =  document.getElementById(`area-checkbox`).checked;
 
-  let dataset = data_generator.genData(1, record_count, false);
+  let dataset = data_generator.genData(data_min, data_max, 1, record_count, false);
+
+  console.log(dataset);
+  
 
   const table_container = document.querySelector('section#data-table');
   table_container.style.width = `${chart_width * 0.7}px`;

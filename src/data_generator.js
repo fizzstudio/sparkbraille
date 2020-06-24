@@ -1,11 +1,15 @@
-//Generates random number betwen minimum and maximum
-const genRandomNum = function(min, max) {
-	return Math.random()*(max - min) + min;
+//Generates random number betwen minimum and maximum, inclusive
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /*Generates random number for each slot in the dataset in accordance
 with the specified dimensions of the dataset that were randomly generated.*/
-export const genData = function(rows, cols, hasGaps) {
+export const genData = function(min, max, rows, cols, hasGaps) {
+  min = parseInt(min);
+  max = parseInt(max);
 	let outputTable = {};
 	//Generate dimensions of csv file
 	const dimensions = [rows, cols];
@@ -24,9 +28,12 @@ export const genData = function(rows, cols, hasGaps) {
 		//Generate row label
 		let label = `row_${i}`;
 		outputTable[label] = [];
-		//Fill in the actual random values.
+    //Fill in the actual random values.
+    
+    // console.log(random());
+    
 		for(let j=0; j<dimensions[1]; j++) {
-      outputTable[label].push(Math.floor(genRandomNum(1,500)));
+      outputTable[label].push(Math.floor(getRandomInt(min, max)));
 			// outputTable[label].push(5*j); // test regular intervals
 		}
 	}
