@@ -26,10 +26,7 @@ function generate_linechart () {
   
   let is_area_chart =  document.getElementById(`area-checkbox`).checked;
 
-  let dataset = data_generator.genData(data_min, data_max, 1, record_count, false);
-
-  console.log(dataset);
-  
+  let dataset = data_generator.genData(data_min, data_max, 1, record_count, false);  
 
   const table_container = document.querySelector('section#data-table');
   table_container.style.width = `${chart_width * 0.7}px`;
