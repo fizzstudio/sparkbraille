@@ -8,6 +8,7 @@ export class LineChart {
     this.container = container;
     this.min = null;
     this.max = null;
+    this.range = null;
     this.record_count = null;
     this.record_labels = null;
     this.width = width || document.documentElement.clientWidth;
@@ -70,6 +71,9 @@ export class LineChart {
         }
       }
     }
+    this.range = this.max - this.min;
+    console.log(this.min, this.max, this.range);
+    
 
     if (this.pad) {
       // round max up to nearest even number
@@ -94,6 +98,11 @@ export class LineChart {
   }
 
   create_axes() {
+    this.create_axis_x();
+    this.create_axis_y();
+  }
+
+  create_axis_x () {
     //  create x axis
     let x_axis = document.createElementNS(this.svgns, `g`);
     x_axis.id = `x_axis`;
@@ -109,25 +118,21 @@ export class LineChart {
     const t_len = this.record_count;
     const x_tick_distance = this.single_precision(this.dataspace.width / (t_len - 1));
     for (let t = 0; t_len > t; ++t) {
-      let tick = document.createElementNS(this.svgns, `g`);
+      const x1 = this.dataspace.x + (x_tick_distance * t);
+      const y1 = this.dataspace.y + this.dataspace.height;
+      const x2 = null;
+      const y2 = this.dataspace.y + this.dataspace.height + this.ticklength;
+      const label_x = this.dataspace.x + (x_tick_distance * t);
+      const label_y = this.dataspace.y + this.dataspace.height + this.ticklength + this.font_size;
+      const label_text = this.record_labels[t];
 
-      let tick_line = document.createElementNS(this.svgns, `path`);
-      tick_line.setAttribute(`d`, `M${this.dataspace.x + (x_tick_distance * t)},${this.dataspace.y + this.dataspace.height} V${this.dataspace.y + this.dataspace.height + this.ticklength}`);
-      tick_line.classList.add(`axis`);
-      tick.appendChild(tick_line);
-
-      let tick_label = document.createElementNS(this.svgns, `text`);
-      tick_label.setAttribute(`x`, this.dataspace.x + (x_tick_distance * t) );
-      tick_label.setAttribute(`y`, this.dataspace.y + this.dataspace.height + this.ticklength + this.font_size);
-      tick_label.setAttribute(`aria-hidden`, `true`);
-      tick_label.classList.add(`tick_label`);
-      tick_label.textContent = this.record_labels[t];
-      tick.appendChild(tick_label);
-
+      let tick = this.create_tick( `x`, x1, y1, x2, y2, label_x, label_y, label_text );
       x_axis.appendChild(tick);
     }
     this.root.appendChild(x_axis);
+  }
 
+  create_axis_y () {
     //  create y axis
     let y_axis = document.createElementNS(this.svgns, `g`);
     y_axis.id = `y_axis`;
@@ -146,25 +151,45 @@ export class LineChart {
     const y_t_len = 4;
     const y_tick_distance = this.single_precision(this.dataspace.height / (y_t_len - 1));
     for (let t = 0; y_t_len > t; ++t) {
-      let tick = document.createElementNS(this.svgns, `g`);
+      const x1 = this.dataspace.x;
+      const y1 = (this.dataspace.y + this.dataspace.height) - (y_tick_distance * t);
+      const x2 = this.dataspace.x - this.ticklength;
+      const y2 = null;
+      const label_x = (this.dataspace.x - this.ticklength) - (this.font_size/4);
+      const label_y = (this.dataspace.y + this.dataspace.height) - (y_tick_distance * t) + (this.font_size * 0.3);
+      const label_text = y_tick_values[t];
 
-      let tick_line = document.createElementNS(this.svgns, `path`);
-      tick_line.setAttribute(`d`, `M${this.dataspace.x},${(this.dataspace.y + this.dataspace.height) - (y_tick_distance * t)} H${this.dataspace.x - this.ticklength}`);
-      tick_line.classList.add(`axis`);
-      tick.appendChild(tick_line);
-
-      let tick_label = document.createElementNS(this.svgns, `text`);
-      tick_label.setAttribute(`x`, (this.dataspace.x - this.ticklength) - (this.font_size/4) );
-      tick_label.setAttribute(`y`, (this.dataspace.y + this.dataspace.height) - (y_tick_distance * t) + (this.font_size * 0.3));
-      tick_label.setAttribute(`aria-hidden`, `true`);
-      tick_label.classList.add(`tick_label`);
-      tick_label.textContent = y_tick_values[t];
-      tick.appendChild(tick_label);
-
+      let tick = this.create_tick( `y`, x1, y1, x2, y2, label_x, label_y, label_text );
       y_axis.appendChild(tick);
     }
 
     this.root.appendChild(y_axis);
+  }
+
+  create_tick( axis_dir, x1, y1, x2, y2, label_x, label_y, label_text ) {
+    let tick = document.createElementNS(this.svgns, `g`);
+
+    let d = `M${x1},${y1}`;
+    if (`x` === axis_dir) {
+      d += ` V${y2}`;
+    } else if (`y` === axis_dir) {
+      d += ` H${x2}`;
+    } 
+
+    let tick_line = document.createElementNS(this.svgns, `path`);
+    tick_line.setAttribute(`d`, d);
+    tick_line.classList.add(`axis`);
+    tick.appendChild(tick_line);
+
+    let tick_label = document.createElementNS(this.svgns, `text`);
+    tick_label.setAttribute(`x`, label_x);
+    tick_label.setAttribute(`y`, label_y);
+    tick_label.setAttribute(`aria-hidden`, `true`);
+    tick_label.classList.add(`tick_label`);
+    tick_label.textContent = label_text;
+    tick.appendChild(tick_label);
+
+    return tick;
   }
 
   create_markers() {
@@ -227,7 +252,7 @@ export class LineChart {
   }
 
   hilite_segments_by_id( id_arr ) {
-    console.log(id_arr);
+    // console.log(id_arr);
     
     const segments = this.root.querySelectorAll(`path[id*=-segment_]`);
     if (!id_arr || !id_arr.length) {
