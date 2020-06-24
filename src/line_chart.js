@@ -147,8 +147,6 @@ export class LineChart {
     const quarters = Math.round(((this.range * 10) / 3) / 10);
     // console.log(`quarters`, quarters);
     
-    // TODO: add 0 line for charts with negative values
-
     // create tickmarks
     // const y_tick_values = [0, (quarters), (quarters * 2), (this.max)];
     const y_tick_values = [this.min, (this.min + quarters), (this.max - quarters), (this.max)];
@@ -166,6 +164,37 @@ export class LineChart {
       let tick = this.create_tick( `y`, x1, y1, x2, y2, label_x, label_y, label_text );
       y_axis.appendChild(tick);
     }
+
+    // TODO: add 0 line for charts with negative values
+    let zero_pos = this.dataspace.height / (this.range / (0 - this.min));
+
+    // create line
+    let zero_line = document.createElementNS(this.svgns, `path`);
+    zero_line.setAttribute(`d`, `M${this.dataspace.x},${(this.dataspace.y + this.dataspace.height) - this.single_precision(zero_pos)} H${this.dataspace.x + this.dataspace.width}`);
+    zero_line.classList.add(`zero_line`);
+    y_axis.appendChild(zero_line);
+
+    /*
+    const y_tick_values = [0, this.min, (this.min + quarters), (this.max - quarters), (this.max)];
+    const y_t_len = 4;
+    const y_tick_distance = this.single_precision(this.dataspace.height / (y_t_len - 1));
+    for (let t = 0; y_t_len > t; ++t) {
+      let val = y_tick_values[t]
+      let tick_height = this.dataspace.height / (this.range / (val - this.min));
+
+      const x1 = this.dataspace.x;
+      // const y1 = (this.dataspace.y + this.dataspace.height) - (y_tick_distance * t);
+      const y1 = (this.dataspace.y + this.dataspace.height) - this.single_precision(tick_height);
+      const x2 = this.dataspace.x - this.ticklength;
+      const y2 = null;
+      const label_x = (this.dataspace.x - this.ticklength) - (this.font_size/4);
+      const label_y = (this.dataspace.y + this.dataspace.height) - (y_tick_distance * t) + (this.font_size * 0.3);
+      const label_text = val;
+
+      let tick = this.create_tick( `y`, x1, y1, x2, y2, label_x, label_y, label_text );
+      y_axis.appendChild(tick);
+    }
+    */
 
     this.root.appendChild(y_axis);
   }
