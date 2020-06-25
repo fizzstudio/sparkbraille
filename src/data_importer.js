@@ -53,12 +53,17 @@ export class DataImporter {
     }
 }
 
+// Parses and represents CSV data.
 class CsvData {
+
     constructor(inputData, separator) {
         this.init(inputData, separator);
         this.parse();
     }
 
+    /* Initialize the object with the given CSV data (a string) and
+     * the given separator character ("," by default).
+     */
     init(inputData, separator) {
         this.data = [];
         this.index = 0;
@@ -66,6 +71,9 @@ class CsvData {
         this.separator = separator;
     }
 
+    /* Return the next input character, optionally advancing the
+     * current position in the input string.
+       */
     nextCharacter(consume=true) {
         let character = null;
         if (this.index < this.inputData.length) {
@@ -76,6 +84,10 @@ class CsvData {
         return character;
     }
 
+    /* Parse the CSV data, storing the result in this.data.
+     * The result is an array of records. Each record is
+     * an array of field values (stirngs). Leading and trailing white space in fields is preserved.
+     */
     parse() {
         const start_of_record = 0;
         const start_of_field = 1;
@@ -104,7 +116,7 @@ class CsvData {
                 switch (inputCharacter) {
                 case "\r":
                 case "\n":
-                    state = start_of_record;
+                    state = end_of_record;
                     continue;
                 case this.separator:
                     continue;
@@ -166,7 +178,7 @@ class CsvData {
                 state = end;
                 continue;
             default:
-                throw new Error(`Invalid stte: ${state}`);
+                throw new Error(`Invalid state: ${state}`);
             }
         }
     }
