@@ -11,6 +11,8 @@ document.getElementById(`data_params_submit`).addEventListener(`click`, generate
 window.onload = () => generate_linechart();
 
 function generate_linechart () {
+  let data_min = document.getElementById(`min_input`).value;
+  let data_max = document.getElementById(`max_input`).value;
   let record_count = document.getElementById(`record_count_input`).value;
   let chart_width = Math.max( 220, (record_count * 25) + 55);
 
@@ -24,24 +26,24 @@ function generate_linechart () {
   
   let is_area_chart =  document.getElementById(`area-checkbox`).checked;
 
-  let dataset = data_generator.genData(1, record_count, false);
+  let dataset = data_generator.genData(data_min, data_max, 1, record_count, false);  
 
   const table_container = document.querySelector('section#data-table');
-  table_container.style.width = `${chart_width * 0.7}px`;
+  table_container.style.width = `${Math.max( 800, (chart_width * 0.7))}px`;
   let table = new TableGenerator( `random_data_table`, dataset, table_container );  
 
   //Create new chart and place it on chart section.
-  let expanded_chart = new LineChart(`expanded`, dataset, document.querySelector('section#expanded_chart'), chart_width, 200, true);
+  let expanded_chart = new LineChart(`expanded`, dataset, document.querySelector('section#expanded_chart'), chart_width, 200, 0, true);
 
   //Create new chart and place it on chart section.
-  let compressed_chart = new LineChart(`compressed`, dataset, document.querySelector('section#compressed_chart'), chart_width, 100, true);
+  let compressed_chart = new LineChart(`compressed`, dataset, document.querySelector('section#compressed_chart'), chart_width, 100, 0, true);
 
   let normalized_data = new DataBinner(dataset, 4);
 
   // console.log(normalized_data);
-  let binned_chart = new LineChart(`binned`, normalized_data.dataset, document.querySelector('section#binned_chart'), chart_width, 100, false);
+  let binned_chart = new LineChart(`binned`, normalized_data.dataset, document.querySelector('section#binned_chart'), chart_width, 100, normalized_data.zero_value, false);
 
-  let braille_array = new bins2braille(normalized_data.dataset, is_area_chart);
+  let braille_array = new bins2braille(normalized_data.dataset, normalized_data.zero_value, is_area_chart);
   // console.log(braille_array.cell_array);
 
   let last_data_index = 0;

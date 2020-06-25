@@ -1,9 +1,15 @@
 /*  SVG styles */
-.axis {
+.axis,
+.zero_line {
   fill: none;
   stroke: hsl(0, 0%, 70%);
   stroke-width: 2px;
   stroke-linecap: round;
+}
+
+.zero_line {
+  stroke: hsl(0, 0%, 80%);
+  stroke-dasharray: 5 10;
 }
 
 .tick_label {
