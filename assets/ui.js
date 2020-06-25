@@ -29,7 +29,7 @@ function generate_linechart () {
   let dataset = data_generator.genData(data_min, data_max, 1, record_count, false);  
 
   const table_container = document.querySelector('section#data-table');
-  table_container.style.width = `${chart_width * 0.7}px`;
+  table_container.style.width = `${Math.max( 800, (chart_width * 0.7))}px`;
   let table = new TableGenerator( `random_data_table`, dataset, table_container );  
 
   //Create new chart and place it on chart section.
@@ -43,7 +43,7 @@ function generate_linechart () {
   // console.log(normalized_data);
   let binned_chart = new LineChart(`binned`, normalized_data.dataset, document.querySelector('section#binned_chart'), chart_width, 100, normalized_data.zero_value, false);
 
-  let braille_array = new bins2braille(normalized_data.dataset, is_area_chart);
+  let braille_array = new bins2braille(normalized_data.dataset, normalized_data.zero_value, is_area_chart);
   // console.log(braille_array.cell_array);
 
   let last_data_index = 0;

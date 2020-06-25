@@ -14,6 +14,7 @@ export class DataBinner {
   init () {
     this.find_min_max_interval();
     this.normalize_data();
+
   }
 
   find_min_max_interval() {
@@ -39,7 +40,11 @@ export class DataBinner {
       }
     }
 
-      // round min down to nearest even number
+
+    // find zero value, before rounding to prevent rounding bugs in bins2braille
+    this.zero_value = Math.round(Math.abs(this.min)/((this.max - this.min)/(this.bin_count - 1)) * 10) / 10;
+
+    // round min down to nearest even number
     this.min = this.min % 2 == 0 ? this.min : this.min - 1;
 
     // round max up to nearest even number, and ensure max is outside the range of the data values
@@ -51,8 +56,8 @@ export class DataBinner {
     // find interval
     this.interval = this.range / this.bin_count;    
 
-    // find zero value
-    this.zero_value = Math.abs(this.min)/(this.range/(this.bin_count - 1));
+    // // find zero value
+    // this.zero_value = Math.round(Math.abs(this.min)/(this.range/(this.bin_count - 1)) * 10) / 10;
   }
 
   normalize_data() {
