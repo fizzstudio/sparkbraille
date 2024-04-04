@@ -15,8 +15,13 @@
       stroke-width: 2px;
     }
 
+        .dot.extra {
+          fill: hsl(0, 0%, 40%);
+        }
+
         #dots:hover .dot.extra {
-        fill: hsl(0, 0%, 40%);
+          fill:  hsl(240, 70%, 40%);;
+          
         }
 
     .dot text {

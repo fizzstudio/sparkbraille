@@ -35,7 +35,8 @@
       <article>
         <header>
   				<h2 id="tall-chart">expanded SVG chart</h2>
-          <p>A chart with an expanded vertical axis shows more distinct position differences between similar values.</p>
+          <p>A chart with a large vertical axis shows more distinct position differences between similar values.</p>
+          <p>The Y-axis is divided into 4 equal values.</p>
   			</header>
         <section id="expanded_chart"></section>
       </article>
@@ -51,24 +52,35 @@
       <article>
         <header>
           <h2 id="binned-chart">binned SVG chart</h2>
-          <p>A compressed chart where each point is normalized into one of 4 value bins, corresponding to the 4 dot levels.</p>
+          <p>A compressed chart where each point is normalized into one of 4 value bins, corresponding to the 4 dot levels. Each value is rounded to its nearest Y-axis value.</p>
   			</header>
         <section id="binned_chart"></section>
       </article>
   
       <article>
         <header>
-  				<h2 id="braille-chart">braille chart</h2>
-          <p>A braille line chart, "drawn" in Unicode braille symbols, with each 2-column character cell representing a pair of data points, one dot in each normalized level. Select a character to read the value pair.</p>
-          <label id="data_tuple_label">braille data selection: <output id="data_tuple_output" aria-live="assertive"></output> </label>
+  				<h2 id="braille-line-chart">braille line chart</h2>
+          <p>A braille line chart, "drawn" in Unicode braille symbols, with each 2-column character cell representing a pair of data points, one dot in each normalized level.</p>
+          <p>Select a character to read the value pair.</p>
+          <label id="line-data_tuple_label">braille data selection: <output id="line-data_tuple_output" aria-live="assertive"></output> </label>
   			</header>
         <section id="braille_linechart"></section>
+      </article>
+  
+      <article>
+        <header>
+  				<h2 id="braille-bar-chart">braille bar chart</h2>
+          <p>The same braille chart rendered as a  bar chart or area chart. Each 2-column character cell representing a pair of data points, one dot in each normalized level.</p>
+          <p>Select a character to read the value pair.</p>
+          <label id="bar-data_tuple_label">braille data selection: <output id="bar-data_tuple_output" aria-live="assertive"></output> </label>
+  			</header>
+        <section id="braille_barchart"></section>
       </article>
     </div>
 
     <article id="project-description">
       <h2 id="sparkbraille">SparkBraille</h2>
-      <p>Sparkbraille is an open source project to enable blind people to quickly get the gist of a chart's trend, and to explore it, using a common single-line refereshable braille display. It was conceived in May 2020 by Doug Schepers of Fizz Studio, and prototyped at a Benetech DIAGRAM Center accessibility technology hackathon in June 2020 by Jason White of ETS and Doug Schepers. We won the first prize in the hackathon, and were excited to develop the idea further.</p>
+      <p><a href="https://github.com/fizzstudio/sparkbraille/">Sparkbraille</a> is an open source project to enable blind people to quickly get the gist of a chart's trend, and to explore it, using a common single-line refereshable braille display. It was conceived in May 2020 by Doug Schepers of Fizz Studio, and prototyped at a Benetech DIAGRAM Center accessibility technology hackathon in June 2020 by Jason White of ETS and Doug Schepers. We won the first prize in the hackathon, and were excited to develop the idea further.</p>
 
       <p>The name sparkbraille is inspired by <a href="https://en.wikipedia.org/wiki/Sparkline">sparklines</a>, a simple and highly condensed data visualization type without axes or coordinates, used to represent the general shape or trend of the data represented. Sparklines are intended to be small enough to be embedded inline in text, or as components of a more complex visualization.</p>
 
@@ -89,12 +101,15 @@
 
       <p class="dots">Printed braille normally consists of 6 dots, which provides 64 unique dot combinations (including the blank cell). For use with computers, refreshable braille displays typically have 8 dots, with two additional dots on the bottom, yielding 256 unique dot combinations. Unicode 3.0 introduced an encoding for each combination in Unicode range u+2800 to u+28FF. These cells are defined as symbols, not as letters, since each language may use each glyph for a different letter or meaning.</p>
 
-      <p class="dots">This means that rather than only 3 "lines of resolution", we had 4 lines of resolution, which actually proved to be suurprisingly adequate for data sets with relatively narrow ranges.</p>
+      <p class="dots">This means that rather than only 3 "lines of resolution", we had 4 lines of resolution, which actually proved to be surprisingly adequate for data sets with relatively narrow ranges.</p>
 
       <p>We decided to print each pair (or tuple) of data points as a Unicode character. This was pretty easily accomplished (by Jason, in one elegant line of JavaScript), and that only left the mapping from data space to braille-dot space. The first experiment was a short 20-character line chart hand-coded by Doug (who is sighted and doesn't have a braille display), and then read by Jason (who is blind and does have a braille display). Jason was able to apprehend and accurately describe the trend very quickly, and we had our proof of concept.</p>
 
+      <h2 id="refreshable-braille-displays">Refreshable braille displays</h2>
+      <p>A refreshable braille display (RBD) an electro-mechanical device for displaying braille characters, normally by means of round-tipped pins raised through holes in a flat surface. Most RBDs are a single line of braille, with between 14 and 84 braille cells; most commonly, RBDs have 18, 20, 40, or 80 braille cells. Since SparkBraille uses 1 braille cell for each 2 data points, this means that you can display twice as many data points as the display has cells; for example, a 20-cell braille display could render 40 data points. Note that there are some (less common, and more expensive) multi-line refreshable braille displays, and SparkBraille should work for them, though it was designed for a single line RBD.</p>
+
       <h2 id="cursor-routing-keys">Cursor routing keys</h2>
-      <p>Braille displays typically have several keys, for writing. Among these keys are the <em>cursor routing keys</em>, one each above or below the each braille cell. As clear from the name, these are used to set the position of cursor in a line of text. But unlike typical keyboard keys or mouse buttons, they aren't reflected in any Web API. So, we couldn't detect when they were pressed.</p>
+      <p>Braille displays typically have several keys, for writing. Among these keys are the <em>cursor routing keys</em>, one each above or below each braille cell. As indicated by the name, these are used to set the position of cursor in a line of text. But unlike typical keyboard keys or mouse buttons, they aren't reflected in any Web API. So, we couldn't detect when they were pressed.</p>
 
       <p>However, since they change the position of the cursor, we realized we could infer that a specific one was pressed by listening to the <code>selectionchange</code> event, and finding the index of the text range position to pinpoint which cell was pressed. With that index, we could announce the corresponding tuple of values from the data set. But through trial and error, we realized that we could only set the cursor if the braille text was in a text input field, which introduces some limitations. A bit more experimentation showed that we could emulate this with a <code>contenteditable</code> element with <code>role="textbox"</code>.</p>
 

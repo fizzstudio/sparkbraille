@@ -6,7 +6,9 @@
 }
 
 #braille_linechart,
-#braille_linechart-input {
+#braille_linechart-input,
+#braille_barchart,
+#braille_barchart-input {
   font-size: 50px;
   font-weight: bold;
   margin: 0;
@@ -21,7 +23,7 @@ input[type=number] {
 }
 
 button {
-  border: thin solid hsl(0, 0%, 80%);;
+  border: thin solid hsl(0, 0%, 80%);
 }
 
 label {

@@ -2,6 +2,7 @@ import { LineChart } from "../src/line_chart.js";
 import * as data_generator from "../src/data_generator.js";
 import { DataBinner } from "../src/data_binner.js";
 import { bins2braille } from "../src/bins2braille.js";
+import { data2brailleBars } from "../src/data2braillebars.js";
 import { TableGenerator } from "../src/table_generator.js";
 import * as braille from "../src/directBraille.js";
 import { DataLookup } from "../src/data_lookup.js";
@@ -43,25 +44,46 @@ function generate_linechart () {
   // console.log(normalized_data);
   let binned_chart = new LineChart(`binned`, normalized_data.dataset, document.querySelector('section#binned_chart'), chart_width, 100, normalized_data.zero_value, false);
 
-  let braille_array = new bins2braille(normalized_data.dataset, normalized_data.zero_value, is_area_chart);
+  // create braille line chart
+  let braille_line_array = new bins2braille(normalized_data.dataset, normalized_data.zero_value, is_area_chart);
   // console.log(braille_array.cell_array);
 
-  let last_data_index = 0;
+  let line_last_data_tuple = 0;
   // insert interactive braille chart
-  braille.insertInteractiveBrailleRegion(document.getElementById(`braille_linechart`), [braille_array.cell_array], (offset, node, selection) => {
+  braille.insertInteractiveBrailleRegion(document.getElementById(`braille_linechart`), [braille_line_array.cell_array], (offset, node, selection) => {
     // console.log(offset);
     const data_index = offset * 2;
     // get data at index from original dataset
-    const data_tuple = new DataLookup(dataset, data_index).tuple;
+    const line_data_tuple = new DataLookup(dataset, data_index).tuple;
 
     // console.log(data_tuple);
-    document.getElementById(`data_tuple_output`).textContent = data_tuple.toString().replace(`,`, `, `);
+    document.getElementById(`line-data_tuple_output`).textContent = line_data_tuple.toString().replace(`,`, `, `);
 
     hilite_chart_segments([expanded_chart, compressed_chart, binned_chart], data_index);
-    hilite_table ([last_data_index, data_index]);
-    last_data_index = data_index;
+    hilite_table ([line_last_data_tuple, data_index]);
+    line_last_data_tuple = data_index;
   });
 
+
+  // create braille bar chart
+  let braille_bar_array = new bins2braille(normalized_data.dataset, normalized_data.zero_value, true);
+  // console.log(braille_array.cell_array);
+
+  let bar_last_data_tuple = 0;
+  // insert interactive braille chart
+  braille.insertInteractiveBrailleRegion(document.getElementById(`braille_barchart`), [braille_bar_array.cell_array], (offset, node, selection) => {
+    // console.log(offset);
+    const data_index = offset * 2;
+    // get data at index from original dataset
+    const bar_data_tuple = new DataLookup(dataset, data_index).tuple;
+
+    // console.log(data_tuple);
+    document.getElementById(`bar-data_tuple_output`).textContent = bar_data_tuple.toString().replace(`,`, `, `);
+
+    hilite_chart_segments([expanded_chart, compressed_chart, binned_chart], data_index);
+    hilite_table ([bar_last_data_tuple, data_index]);
+    bar_last_data_tuple = data_index;
+  });
 }
 
 function hilite_chart_segments (charts, data_index) {
